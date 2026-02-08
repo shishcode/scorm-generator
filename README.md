@@ -2,6 +2,8 @@
 
 FSRC tarafından sevgiyle geliştirilen, tek dosyalı web uygulamalarınızı (HTML5 oyunlar, etkileşimli içerikler vb.) SCORM 1.2 uyumlu paketlere dönüştüren profesyonel bir araçtır.
 
+🚀 **Canlı Uygulama:** [https://scorm-generator-1.onrender.com/](https://scorm-generator-1.onrender.com/)
+
 ## Özellikler
 
 *   **Profesyonel Türkçe Arayüz:** Kullanıcı dostu ve tamamen Türkçe arayüz.
