@@ -1,6 +1,6 @@
 # SCORM Oluşturucu Pro (SCORM Generator Pro)
 
-FSRC tarafından sevgiyle geliştirilen, tek dosyalı web uygulamalarınızı (HTML5 oyunlar, etkileşimli içerikler vb.) SCORM 1.2 uyumlu paketlere dönüştüren profesyonel bir araçtır.
+Eğitim teknolojileri alanında sevgiyle geliştirilen, tek dosyalı web uygulamalarınızı (HTML5 oyunlar, etkileşimli içerikler vb.) SCORM 1.2 uyumlu paketlere dönüştüren profesyonel bir araçtır.
 
 🚀 **Canlı Uygulama:** [https://scorm-generator-1.onrender.com/](https://scorm-generator-1.onrender.com/)
 
