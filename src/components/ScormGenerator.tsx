@@ -41,7 +41,7 @@ export default function ScormGenerator() {
 
     const handleGenerate = async () => {
         if (!htmlContent) {
-            alert("Please upload an HTML file first.");
+            alert("Lütfen önce bir HTML dosyası yükleyin.");
             return;
         }
 
@@ -62,8 +62,8 @@ export default function ScormGenerator() {
                         <LayoutTemplate className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight text-slate-900">SCORM Generator Pro</h1>
-                        <p className="text-slate-500 text-sm">Convert single-file web apps to SCORM 1.2 packages inputs</p>
+                        <h1 className="text-2xl font-bold tracking-tight text-slate-900">SCORM Oluşturucu Pro</h1>
+                        <p className="text-slate-500 text-sm">Tek dosyalı web uygulamalarını SCORM 1.2 paketlerine dönüştürün</p>
                     </div>
                 </header>
 
@@ -72,13 +72,13 @@ export default function ScormGenerator() {
                     <div className="space-y-6">
                         <Card className="border-slate-200 shadow-sm">
                             <CardHeader>
-                                <CardTitle>Configuration</CardTitle>
-                                <CardDescription>Enter the metadata for your SCORM package.</CardDescription>
+                                <CardTitle>Yapılandırma</CardTitle>
+                                <CardDescription>SCORM paketiniz için meta verileri girin.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="identifier">Manifest Identifier</Label>
+                                        <Label htmlFor="identifier">Manifest Kimliği (ID)</Label>
                                         <Input
                                             id="identifier"
                                             name="identifier"
@@ -88,36 +88,36 @@ export default function ScormGenerator() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="organization">Organization</Label>
+                                        <Label htmlFor="organization">Organizasyon</Label>
                                         <Input
                                             id="organization"
                                             name="organization"
                                             value={config.organization}
                                             onChange={handleInputChange}
-                                            placeholder="e.g. My_Org"
+                                            placeholder="örn. Kurum_Adi"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="courseTitle">Course Title</Label>
+                                    <Label htmlFor="courseTitle">Ders Başlığı</Label>
                                     <Input
                                         id="courseTitle"
                                         name="courseTitle"
                                         value={config.courseTitle}
                                         onChange={handleInputChange}
-                                        placeholder="e.g. Fun Synonym Game"
+                                        placeholder="örn. Eğlenceli Eş Anlamlılar Oyunu"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="itemTitle">Item Title (SCO)</Label>
+                                    <Label htmlFor="itemTitle">Öğe Başlığı (SCO)</Label>
                                     <Input
                                         id="itemTitle"
                                         name="itemTitle"
                                         value={config.itemTitle}
                                         onChange={handleInputChange}
-                                        placeholder="e.g. Game Activity"
+                                        placeholder="örn. Oyun Etkinliği"
                                     />
                                 </div>
                             </CardContent>
@@ -125,8 +125,8 @@ export default function ScormGenerator() {
 
                         <Card className="border-slate-200 shadow-sm">
                             <CardHeader>
-                                <CardTitle>Content Upload</CardTitle>
-                                <CardDescription>Upload your single-file HTML web app.</CardDescription>
+                                <CardTitle>İçerik Yükle</CardTitle>
+                                <CardDescription>Tek dosyalı HTML web uygulamanızı yükleyin.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div className="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center hover:bg-slate-50 transition-colors relative">
@@ -142,9 +142,9 @@ export default function ScormGenerator() {
                                         </div>
                                         <div>
                                             <p className="font-medium text-slate-900">
-                                                {file ? file.name : "Click to upload or drag and drop"}
+                                                {file ? file.name : "Yüklemek için tıklayın veya dosyanızı sürükleyin"}
                                             </p>
-                                            <p className="text-sm text-slate-500">HTML files only</p>
+                                            <p className="text-sm text-slate-500">Sadece HTML dosyaları</p>
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +152,7 @@ export default function ScormGenerator() {
                             <CardFooter className="flex justify-between items-center bg-slate-50/50 border-t border-slate-100 p-4">
                                 <div className="text-xs text-slate-500 flex items-center">
                                     <FileCode className="w-4 h-4 mr-2" />
-                                    {file ? `${(file.size / 1024).toFixed(2)} KB` : "No file selected"}
+                                    {file ? `${(file.size / 1024).toFixed(2)} KB` : "Dosya seçilmedi"}
                                 </div>
                                 <div className="flex space-x-2">
                                     <Button
@@ -161,11 +161,11 @@ export default function ScormGenerator() {
                                         disabled={!htmlContent}
                                     >
                                         {showPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
-                                        {showPreview ? "Hide Preview" : "Preview"}
+                                        {showPreview ? "Önizlemeyi Gizle" : "Önizle"}
                                     </Button>
                                     <Button onClick={handleGenerate} disabled={!htmlContent || !config.identifier}>
                                         <Download className="w-4 h-4 mr-2" />
-                                        Generate SCORM
+                                        SCORM Oluştur
                                     </Button>
                                 </div>
                             </CardFooter>
@@ -178,7 +178,7 @@ export default function ScormGenerator() {
                             <CardHeader className="bg-slate-50 border-b border-slate-100 py-3">
                                 <CardTitle className="text-base font-medium flex items-center">
                                     <LayoutTemplate className="w-4 h-4 mr-2 text-slate-500" />
-                                    HTML Preview
+                                    HTML Önizleme
                                 </CardTitle>
                             </CardHeader>
                             <div className="flex-1 bg-slate-100 relative">
@@ -192,7 +192,7 @@ export default function ScormGenerator() {
                                 ) : (
                                     <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
                                         <LayoutTemplate className="w-16 h-16 mb-4 opacity-20" />
-                                        <p>Preview will appear here</p>
+                                        <p>Önizleme burada görünecek</p>
                                     </div>
                                 )}
                             </div>
@@ -201,7 +201,7 @@ export default function ScormGenerator() {
                 </div>
 
                 <footer className="text-center text-slate-400 text-sm mt-8 border-t border-slate-200 pt-6">
-                    <p>Created with love by FSRC</p>
+                    <p>FSRC tarafından sevgiyle oluşturuldu</p>
                 </footer>
             </div>
         </div>
