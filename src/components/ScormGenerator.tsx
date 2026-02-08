@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Upload, FileCode, Download, Eye, EyeOff, LayoutTemplate } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Upload, FileCode, Download, Eye, EyeOff, LayoutTemplate, Code } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,8 +7,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { generateScormPackage } from "@/lib/scorm";
 
 export default function ScormGenerator() {
+    const [activeTab, setActiveTab] = useState<"upload" | "code">("upload");
     const [file, setFile] = useState<File | null>(null);
     const [htmlContent, setHtmlContent] = useState<string>("");
+    const [pastedCode, setPastedCode] = useState<string>("");
     const [showPreview, setShowPreview] = useState(false);
 
     const [config, setConfig] = useState({
@@ -18,20 +20,34 @@ export default function ScormGenerator() {
         itemTitle: "Kelime Avcısı Oyunu",
     });
 
+    useEffect(() => {
+        if (activeTab === "code") {
+            setHtmlContent(pastedCode);
+        } else {
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    if (event.target?.result) {
+                        setHtmlContent(event.target.result as string);
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                setHtmlContent("");
+            }
+        }
+    }, [activeTab, pastedCode, file]);
+
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(selectedFile);
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                if (event.target?.result) {
-                    setHtmlContent(event.target.result as string);
-                    // Auto-preview when file is uploaded? Maybe not, usually distracting.
-                }
-            };
-            reader.readAsText(selectedFile);
         }
+    };
+
+    const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setPastedCode(e.target.value);
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,14 +57,14 @@ export default function ScormGenerator() {
 
     const handleGenerate = async () => {
         if (!htmlContent) {
-            alert("Lütfen önce bir HTML dosyası yükleyin.");
+            alert("Lütfen önce bir HTML dosyası yükleyin veya kod yapıştırın.");
             return;
         }
 
         await generateScormPackage({
             ...config,
             htmlContent,
-            htmlFileName: file?.name || "index.html"
+            htmlFileName: activeTab === "upload" && file ? file.name : "index.html"
         });
     };
 
@@ -84,7 +100,7 @@ export default function ScormGenerator() {
                                             name="identifier"
                                             value={config.identifier}
                                             onChange={handleInputChange}
-                                            placeholder="e.g. My_Course_ID"
+                                            placeholder="örn. Kurum_Adi"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -125,34 +141,76 @@ export default function ScormGenerator() {
 
                         <Card className="border-slate-200 shadow-sm">
                             <CardHeader>
-                                <CardTitle>İçerik Yükle</CardTitle>
-                                <CardDescription>Tek dosyalı HTML web uygulamanızı yükleyin.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center hover:bg-slate-50 transition-colors relative">
-                                    <Input
-                                        type="file"
-                                        accept=".html,.htm"
-                                        onChange={handleFileChange}
-                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                    />
-                                    <div className="flex flex-col items-center justify-center space-y-3">
-                                        <div className="p-3 bg-indigo-50 text-indigo-600 rounded-full">
-                                            <Upload className="w-6 h-6" />
-                                        </div>
-                                        <div>
-                                            <p className="font-medium text-slate-900">
-                                                {file ? file.name : "Yüklemek için tıklayın veya dosyanızı sürükleyin"}
-                                            </p>
-                                            <p className="text-sm text-slate-500">Sadece HTML dosyaları</p>
-                                        </div>
+                                <div className="flex items-center justify-between">
+                                    <div className="space-y-1.5">
+                                        <CardTitle>İçerik</CardTitle>
+                                        <CardDescription>HTML içeriğinizi nasıl eklemek istersiniz?</CardDescription>
                                     </div>
                                 </div>
+                                <div className="flex space-x-2 mt-4 bg-slate-100 p-1 rounded-lg">
+                                    <button
+                                        onClick={() => setActiveTab("upload")}
+                                        className={`flex-1 flex items-center justify-center py-2 text-sm font-medium rounded-md transition-all ${activeTab === "upload"
+                                                ? "bg-white text-indigo-600 shadow-sm"
+                                                : "text-slate-500 hover:text-slate-700"
+                                            }`}
+                                    >
+                                        <Upload className="w-4 h-4 mr-2" />
+                                        Dosya Yükle
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveTab("code")}
+                                        className={`flex-1 flex items-center justify-center py-2 text-sm font-medium rounded-md transition-all ${activeTab === "code"
+                                                ? "bg-white text-indigo-600 shadow-sm"
+                                                : "text-slate-500 hover:text-slate-700"
+                                            }`}
+                                    >
+                                        <Code className="w-4 h-4 mr-2" />
+                                        Kod Yapıştır
+                                    </button>
+                                </div>
+                            </CardHeader>
+                            <CardContent>
+                                {activeTab === "upload" ? (
+                                    <div className="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center hover:bg-slate-50 transition-colors relative min-h-[200px] flex flex-col items-center justify-center">
+                                        <Input
+                                            type="file"
+                                            accept=".html,.htm"
+                                            onChange={handleFileChange}
+                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        />
+                                        <div className="flex flex-col items-center justify-center space-y-3">
+                                            <div className="p-3 bg-indigo-50 text-indigo-600 rounded-full">
+                                                <Upload className="w-6 h-6" />
+                                            </div>
+                                            <div>
+                                                <p className="font-medium text-slate-900">
+                                                    {file ? file.name : "Yüklemek için tıklayın veya dosyanızı sürükleyin"}
+                                                </p>
+                                                <p className="text-sm text-slate-500">Sadece HTML dosyaları</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2">
+                                        <Label htmlFor="htmlCode" className="sr-only">HTML Kodu</Label>
+                                        <textarea
+                                            id="htmlCode"
+                                            value={pastedCode}
+                                            onChange={handleCodeChange}
+                                            className="flex min-h-[200px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 font-mono"
+                                            placeholder="<!DOCTYPE html>..."
+                                        />
+                                    </div>
+                                )}
                             </CardContent>
                             <CardFooter className="flex justify-between items-center bg-slate-50/50 border-t border-slate-100 p-4">
                                 <div className="text-xs text-slate-500 flex items-center">
                                     <FileCode className="w-4 h-4 mr-2" />
-                                    {file ? `${(file.size / 1024).toFixed(2)} KB` : "Dosya seçilmedi"}
+                                    {activeTab === "upload"
+                                        ? (file ? `${(file.size / 1024).toFixed(2)} KB` : "Dosya seçilmedi")
+                                        : `${pastedCode.length} karakter`
+                                    }
                                 </div>
                                 <div className="flex space-x-2">
                                     <Button
