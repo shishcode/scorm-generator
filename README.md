@@ -1,73 +1,64 @@
-# React + TypeScript + Vite
+# SCORM Oluşturucu Pro (SCORM Generator Pro)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FSRC tarafından sevgiyle geliştirilen, tek dosyalı web uygulamalarınızı (HTML5 oyunlar, etkileşimli içerikler vb.) SCORM 1.2 uyumlu paketlere dönüştüren profesyonel bir araçtır.
 
-Currently, two official plugins are available:
+## Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **Profesyonel Türkçe Arayüz:** Kullanıcı dostu ve tamamen Türkçe arayüz.
+*   **Kolay Kullanım:** Sadece HTML dosyanızı yükleyin ve gerekli bilgileri girin.
+*   **Anlık Önizleme:** Yüklediğiniz içeriği paketlemeden önce görüntüleyin.
+*   **SCORM 1.2 Uyumluluğu:** Oluşturulan paketler Moodle, Canvas, Blackboard ve MEB EBA gibi LMS sistemleriyle uyumludur.
+*   **Güvenli ve Hızlı:** Tüm işlemler tarayıcınızda gerçekleşir, sunucuya dosya gönderilmez.
 
-## React Compiler
+## Kurulum (Geliştiriciler İçin)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Proje React, TypeScript ve Vite ile geliştirilmiştir.
 
-## Expanding the ESLint configuration
+1.  Depoyu klonlayın:
+    ```bash
+    git clone https://github.com/shishcode/scorm-generator.git
+    cd scorm-generator
+    ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2.  Bağımlılıkları yükleyin:
+    ```bash
+    npm install
+    ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+3.  Geliştirme sunucusunu başlatın:
+    ```bash
+    npm run dev
+    ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+4.  Tarayıcınızda `http://localhost:5173` adresini açın.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Kullanım
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  **İçerik Yükle:** "İçerik Yükle" alanına tıklayarak veya sürükleyip bırakarak `.html` dosyanızı yükleyin.
+2.  **Yapılandırma:**
+    *   **Manifest Kimliği (ID):** Paketiniz için benzersiz bir kimlik (örn. `Dersim_v1`). Türkçe karakter ve boşluk kullanmamaya özen gösterin.
+    *   **Organizasyon:** Kurum veya oluşturucu adı (örn. `MEB_EBA`).
+    *   **Ders Başlığı:** LMS'de görünecek ders adı.
+    *   **Öğe Başlığı (SCO):** İçeriğin başlığı.
+3.  **Önizleme:** "Önizle" butonuna basarak içeriğin doğru çalıştığından emin olun.
+4.  **Oluştur:** "SCORM Oluştur" butonuna tıklayarak `.zip` dosyasını indirin.
+5.  **Yükleme:** İndirilen ZIP dosyasını LMS sisteminize (örn. EBA) SCORM paketi olarak yükleyin.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Dağıtım (Deployment)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Bu proje [Render.com](https://render.com) üzerinde Statik Site olarak çalışmaya hazırdır.
+
+*   **Build Command:** `npm install && npm run build`
+*   **Publish Directory:** `dist`
+
+## Teknolojiler
+
+*   [React](https://react.dev/)
+*   [TypeScript](https://www.typescriptlang.org/)
+*   [Vite](https://vitejs.dev/)
+*   [Tailwind CSS](https://tailwindcss.com/)
+*   [JSZip](https://stuk.github.io/jszip/)
+*   [Lucide React](https://lucide.dev/)
+
+---
+Created with love by FSRC
